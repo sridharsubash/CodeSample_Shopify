@@ -18,4 +18,6 @@ When the use wants to select a different region store, he can select the desired
 
  **assets/sibilings.js** A script that creates the sibilings data from siblings collection templates and stores in browser session, added with the triggers which can be used with event handling. 
 
- **snippets/products-siblings-selector.liquid** will be included in product discription page to render the siblings (color swatches), have javascript function to load siblings for the current visible product based on the current product's family name (style code).   
+ **snippets/products-siblings-selector.liquid** will be included in product discription page to render the siblings (color swatches), have javascript function to load siblings for the current visible product based on the current product's family name (style code).
+
+ ![alt text](image-1.png)   
