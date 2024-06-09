@@ -1,0 +1,92 @@
+//GeoIP redirection - Set Country Flag Cookie
+<script>
+  function jsonp(url, callback) {
+    var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+    window[callbackName] = function(data) {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      callback(data);
+    };
+    var script = document.createElement('script');
+    script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+    document.head.appendChild(script);
+  }
+
+  // if no country cookie set
+  if(countryCookie == null){
+    // if no flag pramater in URL (before the country cookie is set)
+    if(getParameterByName('flag') == null){
+      var ip = 'check'
+      var access_key = '{{ settngs.geoip_access_key }}';
+      usedProtocall = location.protocol;
+      fullDomain = usedProtocall + "//" + location.host; 
+      pathName = location.pathname;
+
+      function CheckRedirect(domain, includePath) {
+        if (includePath) {
+          window.top.location.href = usedProtocall + "//" + domain + pathName;
+        }
+        else {
+          window.top.location.href = usedProtocall + "//" + domain;
+        }              
+        return false;
+      }
+      
+      //GET Customers IP Locationto auto redirect
+      jsonp('https://api.ipstack.com/check?access_key='+access_key, function(data) {
+        currentCode = data.country_code;
+        currentName = data.country_name;      
+        {% if settings.eu_link != blank and settings.eu_countries != blank %}
+          {% assign countryArray = settings.eu_countries | split: "," %}
+          {% for country in countryArray %}
+            if (currentName === '{{ country }}') {
+              redirectDomain = '{{ settings.eu_link }}';
+              CheckRedirect(redirectDomain, true);                 
+            }
+          {% endfor %}
+        {% endif %}
+        if (currentName === 'Germany' && '{{ settings.germany_link }}' !== "") {                
+          redirectDomain = '{{ settings.germany_link }}';
+          CheckRedirect(redirectDomain, true);                
+        } else if (currentName === 'France' && '{{ settings.france_link }}' !== "") {
+          redirectDomain = '{{ settings.france_link }}';
+          CheckRedirect(redirectDomain, true);
+        } else if (currentName === 'Netherlands' && '{{ settings.netherlands_link }}' !== "") { 
+          redirectDomain = '{{ settings.netherlands_link }}';
+          CheckRedirect(redirectDomain, true);
+        } else if (currentName === 'United Kingdom' && '{{ settings.uk_link }}' !== "") {
+          redirectDomain = '{{ settings.uk_link }}';
+          CheckRedirect(redirectDomain, true);
+        } else if (currentName === 'India' && '{{ settings.india_link }}' !== "" ) {
+          redirectDomain = '{{ settings.india_link }}';
+          CheckRedirect(redirectDomain, true);
+        } else if (currentName === 'Spain' && '{{ settings.spain_link }}' !== "") {
+          redirectDomain = '{{ settings.spain_link }}';
+          CheckRedirect(redirectDomain, true);
+        } else if (currentName === 'Canada' && '{{ settings.canada_link }}' !== "") {
+          redirectDomain = '{{ settings.canada_link }}';
+          CheckRedirect(redirectDomain, false);    
+        } else if (currentName === 'Australia' && '{{ settings.australia_link }}' !== "") {
+          redirectDomain = '{{ settings.australia_link }}';
+          CheckRedirect(redirectDomain, false);    
+        } else if (currentName === 'South Africa' && '{{ settings.southafrica_link }}' !== "") {
+          redirectDomain = '{{ settings.southafrica_link }}';
+          CheckRedirect(redirectDomain, false);    
+        } else if (currentName === 'Philippines' && '{{ settings.philippines_link }}' !== "") {
+          redirectDomain = '{{ settings.philippines_link }}';
+          CheckRedirect(redirectDomain, false);    
+        } 
+        else {
+          {% assign extension = shop.url | split: "." | last %}
+          {% if extension == "eu" %}
+            Cookies.set('countrySelectKSGB', 'eu');  
+          {% elsif extension == "uk" %}
+            Cookies.set('countrySelectKSGB', 'uk'); 
+          {% else %}
+            Cookies.set('countrySelectKSGB', 'us');
+          {% endif %}
+        }
+      });
+    }
+  }   
+</script>

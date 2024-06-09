@@ -1,0 +1,100 @@
+[       
+    {
+        "name": "GeoIP Redirects",
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable_geoip_redirects",
+                "label": "Enable GeoIP Redirects",
+                "default": false
+            },
+            {
+                "type": "textarea",
+                "id": "geoip_redirect_domains",
+                "label": "Redirect by GeoIP on the folllowing domains",
+                "info": "Separate each domain by comma"
+            },
+            {
+                "type": "header",
+                "content": "One Country Redirects",
+                "info": "Leave blank to disable"
+            },
+            {
+                "type": "text",
+                "id": "germany_link",
+                "label": "Germany URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "france_link",
+                "label": "France URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "netherlands_link",
+                "label": "Netherlands URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "uk_link",
+                "label": "United Kingdom URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "india_link",
+                "label": "India URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "spain_link",
+                "label": "Spain URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "canada_link",
+                "label": "Canada URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "australia_link",
+                "label": "Australia URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "southafrica_link",
+                "label": "South Africa URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "text",
+                "id": "philippines_link",
+                "label": "Philippines URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "header",
+                "content": "EU Redirect"
+            },
+            {
+                "type": "text",
+                "id": "eu_link",
+                "label": "EU URL",
+                "info": "Which URL should be redirected to."
+            },
+            {
+                "type": "textarea",
+                "id": "eu_countries",
+                "label": "EU Countries",
+                "info": "A comma seperatd list of country codes to redirect to the EU store."
+            }
+        ]
+    }
+]
