@@ -1,0 +1,65 @@
+{% if product.type != "GIFT CARD" %}
+<div> 
+  <div neptune-liquid="{topic:Siblings,append:[productSiblings, activeSibling]}">
+    <div class="flex items-end justify-between mb-2 px-1">
+      <p class="product-siblings__text text-xs font-bold m-0">Color: <span class="font-normal" data-sibling>{{ product.title | split: ' | ' | last }}</span></p>
+    </div>
+
+    {% comment %} Display Siblings (color swatches) for the product{% endcomment %}
+    {% if productSiblings.size > 1 %}
+    <div class="product-siblings grid grid-cols-5 gap-2">
+      {% for sibling in productSiblings %}
+          <link rel="prefetch" {{'h'}}ref="/products/{{ sibling.handle }}?sections={{ section.id }}">
+          <a class="relative overflow-hidden swatch cursor-pointer border border-transparent hover:border-dark active:border-dark p-1 rounded {% if activeSibling.handle == sibling.handle %}active{% endif %}" 
+            data-available="{{ sibling.available }}"
+            onmouseenter="_n.qs('[data-sibling]').textContent='{{ sibling.name }}'";
+            onmouseleave="_n.qs('[data-sibling]').textContent=activeSibling.name";
+            onclick="_n.qs('[data-sibling]').textContent='{{ sibling.name }}'; 
+
+              window.activeSibling = productSiblings[{{ forloop.index0 }}];
+              
+              Neptune.periscope.load(
+                _n.qs('.product-essentials'),
+                {
+                  skeleton:true,
+                  url:'/products/{{ sibling.handle }}?sections={{ section.id }}',
+                  path:'{{ section.id }}'
+                }
+              );
+              window.history.replaceState(window.history.state,null,'{{ sibling.handle }}');
+              _n.qsa('.product-siblings .swatch').forEach(function(element) {
+                element.classList.remove('active');
+              });
+              this.classList.add('active');
+              "> 
+            <img class="object-contain w-full" alt="{{sibling.family}} {{sibling.name}}" {{'s'}}rc="{{ sibling.image | append:'&width=120'  }}" width="120" height="120" />
+          </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+<script>
+  //Fetch Product Siblings from browser session
+  window.addEventListener('siblings:loaded', e => {  
+    if(!!window.productSiblings) return;
+    window.productSiblings = siblings['{{ product.title | split: '-' | first | strip }}-{{ product.title | split: ' | ' | first | split: '-' | last | strip }}'].filter(p=>p.available)
+    window.activeSibling = {productSiblings.find(s=>s.handle=='{{ product.handle }}')}    
+    productSiblings.splice(productSiblings.findIndex(s=>s.handle=='{{ product.handle }}'),1)
+    productSiblings.unshift(activeSibling)
+  })
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

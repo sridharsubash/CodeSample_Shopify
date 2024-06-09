@@ -1,0 +1,18 @@
+{% comment %}Get All Products with Family Name to filter siblings {% endcomment %}
+{% layout none %}
+[
+	{% paginate collection.products by 1000 %}
+	{% for product in collection.products %}
+	{
+		"family": "{{ product.title | split: '-' | first }}-{{ product.title | split: ' | ' | first | split: '-' | last | strip }}",
+		"name":{{ product.title | split: ' | ' | last | json }},
+		"handle":{{ product.handle | json }},
+		"price":{{ product.price | json}},
+		"compare_at_price": {{ product.compare_at_price | json }},
+		"image":{{ product.featured_image | json }},
+		"image_alt":{{ product.images[1].src | json }},
+		"available":{{ product.available | json }}
+	}{% unless forloop.last %},{% endunless %}
+	{% endfor %}
+	{% endpaginate %}
+]

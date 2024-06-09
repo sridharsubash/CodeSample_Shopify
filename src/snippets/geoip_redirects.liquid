@@ -45,6 +45,8 @@
             }
           {% endfor %}
         {% endif %}
+
+        //Redirecting customer based on IP location and set cookie flag 
         if (currentName === 'Germany' && '{{ settings.germany_link }}' !== "") {                
           redirectDomain = '{{ settings.germany_link }}';
           CheckRedirect(redirectDomain, true);                
